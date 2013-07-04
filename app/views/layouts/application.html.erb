@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ruby on Rails Tutorial Sample App | <%= yield(:title) %></title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <title><%= full_title(yield(:title)) %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %> <!-# curly braces are optional for a hash that is the last element of a function call->
+  	<!- stylesheet_link_tag--is a rails function on a string (a path), and a has (the media type).->
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
