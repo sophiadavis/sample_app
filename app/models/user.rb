@@ -10,7 +10,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation # admin is not on this list!
   has_secure_password
 
 #   before_save { self.email = email.downcase } RAILS $
@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 	end
 	
 	private
-#   RAILS $
+#   RAILS 4
 # 		def create_remember_token
 # 			self.remember_token = User.encrypt(User.new_remember_token)
 # 		end

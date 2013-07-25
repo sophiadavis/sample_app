@@ -3,7 +3,7 @@
 
 <div class="row">
 	<div class="span6 offset3">
-		<%= form_for(:session, url: sessions_path) do |f| %>
+	<!--	<%= form_for(:session, url: sessions_path) do |f| %>
 		
 			<%= f.label :email %>
 			<%= f.text_field :email %>
@@ -12,8 +12,33 @@
 			<%= f.password_field :password %>
 			
 			<%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
+		<% end %>-->
+		<%= form_tag sessions_path do %>
+		
+			<%= label :session, :email %>
+			<%= text_field :session, :email %>
+			
+			<%= label :session, :password %>
+			<%= password_field :session, :password %>
+			
+			<%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
 		<% end %>
+		
 		
 		<p>New user? <%= link_to "Sign up now!", signup_path %></p>
 	</div>
 </div>
+
+
+<!--This works too if you change the sessions controller
+   <%= form_tag sessions_path do %>
+
+      <%= label_tag :email %>
+      <%= text_field_tag :email, params[:email] %>
+
+      <%= label_tag :password %>
+      <%= password_field_tag :password %>
+
+      <%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
+    <% end %>
+-->
