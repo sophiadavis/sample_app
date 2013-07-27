@@ -5,14 +5,17 @@ class UsersController < ApplicationController
   
   def show
   	@user = User.find(params[:id])
+  	@microposts = @user.microposts.paginate(page: params[:page]) 
   end
   
   def new
+  	redirect_to(root_path) if signed_in? # signed in users should not be trying to hit this url
   	@user = User.new
   end
   
   def create
 #   @user = User.new(user_params)
+	redirect_to(root_path) if signed_in?
 	@user = User.new(params[:user])
   	if @user.save
   		sign_in @user
@@ -47,21 +50,17 @@ class UsersController < ApplicationController
   end
   
   def destroy
-  	User.find(params[:id]).destroy
-  	flash[:success] = "User destroyed."
-  	redirect_to users_path 
+  	user = User.find(params[:id])
+  	if (current_user.admin? && current_user?(user)) # why couldn't I just use "user"?
+  		flash[:error] = "NO MAN! Don't go deleting yourself. It's not too late. We can still get you help."
+  	else
+  		user.destroy
+		flash[:success] = "User destroyed."
+	end
+	redirect_to users_path 
   end
   
   private
-  	def signed_in_user
-  		unless signed_in?
-  			store_location
-			redirect_to signin_path, notice: "Please sign in." unless signed_in?
-					# equivalent to 
-						# flash[:notice] = "Please sign in."
-						# redirect_to signin_path
-  		end
-  	end
   	
   	def correct_user
   		@user = User.find(params[:id])

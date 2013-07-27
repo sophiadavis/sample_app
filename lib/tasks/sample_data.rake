@@ -16,11 +16,23 @@ namespace :db do
 						password: password,		
 						password_confirmation: password)
 		end
+		users = User.all(limit: 6)
+		50.times do
+			content = Faker::Lorem.sentence(5)
+			users.each { |user| user.microposts.create!(content: content) }
+		end
 	end
 end
 
-# bundle exec rake db:reset
-# bundle exec rake db:populate
-# bundle exec rake db:test:prepare
+=begin
+bundle exec rake db:reset
+bundle exec rake db:populate
+bundle exec rake db:test:prepare
 
-# and remember to restart server
+and remember to restart server
+
+$ heroku pg:reset DATABASE_URL --confirm <name-heroku-gave-to-your-app>
+$ heroku run rake db:migrate
+$ heroku run rake db:populate
+
+=end

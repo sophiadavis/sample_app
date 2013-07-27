@@ -12,6 +12,7 @@
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation # admin is not on this list!
   has_secure_password
+  has_many :microposts, dependent: :destroy
 
 #   before_save { self.email = email.downcase } RAILS $
   before_save { |user| user.email = email.downcase }
@@ -30,6 +31,10 @@ class User < ActiveRecord::Base
 
 	def User.new_remember_token
 		Digest::SHA1.hexdigest(token.to_s)
+	end
+	
+	def feed
+		Micropost.where("user_id = ?", id)
 	end
 	
 	private
